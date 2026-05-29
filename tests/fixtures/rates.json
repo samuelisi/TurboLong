@@ -1,0 +1,442 @@
+[
+  {
+    "name": "Zero utilization",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 0.0,
+    "addSupply": 0.0,
+    "addBorrow": 0.0,
+    "priceUsd": 1.0,
+    "supplyEps": 33866,
+    "borrowEps": 49538,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Exactly utilOpt",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 50000.0,
+    "addSupply": 0.0,
+    "addBorrow": 0.0,
+    "priceUsd": 1.0,
+    "supplyEps": 136604,
+    "borrowEps": 26849,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Below utilOpt (25%)",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 25000.0,
+    "addSupply": 0.0,
+    "addBorrow": 0.0,
+    "priceUsd": 1.0,
+    "supplyEps": 30445,
+    "borrowEps": 169845,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Between utilOpt and 95% (75%)",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 75000.0,
+    "addSupply": 0.0,
+    "addBorrow": 0.0,
+    "priceUsd": 1.0,
+    "supplyEps": 104486,
+    "borrowEps": 101760,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Exactly 95%",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 95000.0,
+    "addSupply": 0.0,
+    "addBorrow": 0.0,
+    "priceUsd": 1.0,
+    "supplyEps": 105606,
+    "borrowEps": 83487,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Above 95% (98%)",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 98000.0,
+    "addSupply": 0.0,
+    "addBorrow": 0.0,
+    "priceUsd": 1.0,
+    "supplyEps": 171807,
+    "borrowEps": 144061,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Exactly 100%",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 100000.0,
+    "addSupply": 0.0,
+    "addBorrow": 0.0,
+    "priceUsd": 1.0,
+    "supplyEps": 157810,
+    "borrowEps": 64682,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 1 with additions v1",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 10000.0,
+    "addSupply": 5000.0,
+    "addBorrow": 2000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 96122,
+    "borrowEps": 167968,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 2 with additions v1",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 60000.0,
+    "addSupply": 1000.0,
+    "addBorrow": 5000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 121391,
+    "borrowEps": 42950,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 3 with additions v1",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 90000.0,
+    "addSupply": 100.0,
+    "addBorrow": 8000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 48954,
+    "borrowEps": 190399,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 1 with additions v2",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 10000.0,
+    "addSupply": 10000.0,
+    "addBorrow": 4000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 94225,
+    "borrowEps": 89675,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 2 with additions v2",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 60000.0,
+    "addSupply": 2000.0,
+    "addBorrow": 10000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 64721,
+    "borrowEps": 157237,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 3 with additions v2",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 90000.0,
+    "addSupply": 200.0,
+    "addBorrow": 16000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 34130,
+    "borrowEps": 7402,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 1 with additions v3",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 10000.0,
+    "addSupply": 15000.0,
+    "addBorrow": 6000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 28336,
+    "borrowEps": 62765,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 2 with additions v3",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 60000.0,
+    "addSupply": 3000.0,
+    "addBorrow": 15000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 55577,
+    "borrowEps": 117565,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Kink 3 with additions v3",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 100000.0,
+    "totalBorrow": 90000.0,
+    "addSupply": 300.0,
+    "addBorrow": 24000.0,
+    "priceUsd": 1.0,
+    "supplyEps": 78408,
+    "borrowEps": 129670,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Modified Config v1",
+    "rateConfig": {
+      "rBase": 361022,
+      "rOne": 558206,
+      "rTwo": 1469145,
+      "rThree": 58147886,
+      "utilOpt": 4268173,
+      "irMod": 11554929,
+      "backstopFP": 2176142
+    },
+    "totalSupply": 200000.0,
+    "totalBorrow": 162905.0,
+    "addSupply": 3217.0,
+    "addBorrow": 470.0,
+    "priceUsd": 1.0,
+    "supplyEps": 67104,
+    "borrowEps": 189392,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Modified Config v2",
+    "rateConfig": {
+      "rBase": 478782,
+      "rOne": 443678,
+      "rTwo": 1058417,
+      "rThree": 56908032,
+      "utilOpt": 4573885,
+      "irMod": 11797198,
+      "backstopFP": 2863481
+    },
+    "totalSupply": 200000.0,
+    "totalBorrow": 50783.0,
+    "addSupply": 3439.0,
+    "addBorrow": 9706.0,
+    "priceUsd": 1.0,
+    "supplyEps": 195955,
+    "borrowEps": 193388,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Modified Config v3",
+    "rateConfig": {
+      "rBase": 200662,
+      "rOne": 564058,
+      "rTwo": 1409810,
+      "rThree": 41136029,
+      "utilOpt": 6796674,
+      "irMod": 10055357,
+      "backstopFP": 2846835
+    },
+    "totalSupply": 200000.0,
+    "totalBorrow": 62675.0,
+    "addSupply": 4404.0,
+    "addBorrow": 5835.0,
+    "priceUsd": 1.0,
+    "supplyEps": 182062,
+    "borrowEps": 106838,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Modified Config v4",
+    "rateConfig": {
+      "rBase": 243661,
+      "rOne": 483488,
+      "rTwo": 1301056,
+      "rThree": 53306552,
+      "utilOpt": 4328123,
+      "irMod": 8000695,
+      "backstopFP": 1503997
+    },
+    "totalSupply": 200000.0,
+    "totalBorrow": 3123.0,
+    "addSupply": 2397.0,
+    "addBorrow": 9762.0,
+    "priceUsd": 1.0,
+    "supplyEps": 98674,
+    "borrowEps": 104380,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Modified Config v5",
+    "rateConfig": {
+      "rBase": 407164,
+      "rOne": 494338,
+      "rTwo": 1346650,
+      "rThree": 58528078,
+      "utilOpt": 4753117,
+      "irMod": 8600702,
+      "backstopFP": 1238078
+    },
+    "totalSupply": 200000.0,
+    "totalBorrow": 108850.0,
+    "addSupply": 383.0,
+    "addBorrow": 4780.0,
+    "priceUsd": 1.0,
+    "supplyEps": 143832,
+    "borrowEps": 116520,
+    "blndPrice": 0.5
+  },
+  {
+    "name": "Zero initial supply with addition",
+    "rateConfig": {
+      "rBase": 300000,
+      "rOne": 400000,
+      "rTwo": 1200000,
+      "rThree": 50000000,
+      "utilOpt": 5000000,
+      "irMod": 10000000,
+      "backstopFP": 2000000
+    },
+    "totalSupply": 0.0,
+    "totalBorrow": 0.0,
+    "addSupply": 1000.0,
+    "addBorrow": 500.0,
+    "priceUsd": 1.0,
+    "supplyEps": 196450,
+    "borrowEps": 96091,
+    "blndPrice": 0.5
+  }
+]
