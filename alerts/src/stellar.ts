@@ -72,6 +72,11 @@ function addressToScVal(addr: string): string {
   return JSON.stringify({ type: "Address", value: addr });
 }
 
+/** Build XDR for an invoke-contract call using the null account. */
+function buildInvokeXdr(contractId: string, method: string, args: any[]): string {
+  return encodeInvokeTransaction(NULL_ACCOUNT, NETWORK_PASSPHRASE, contractId, method, args);
+}
+
 /** Build a simulateTransaction JSON-RPC request body. */
 function buildSimulateBody(contractId: string, method: string, args: any[]): object {
   return {

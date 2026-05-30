@@ -12,12 +12,14 @@
 
 import { POOLS, LEVERAGE_BRACKETS, POOL_NAMES, fetchReserveRates, computeNetApy, type ReserveRates } from "./stellar.ts";
 import { sendVerificationEmail, sendApyAlert } from "./email.ts";
+import { handleTelegramUpdate, sendTelegramAlert, type TelegramEnv } from "./telegram.ts";
 
 interface Env {
   DB: D1Database;
   RESEND_API_KEY: string;
   RESEND_FROM: string;
   FRONTEND_ORIGIN: string;
+  TELEGRAM_BOT_TOKEN: string;
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -180,6 +182,24 @@ async function handleUnsubscribe(request: Request, env: Env): Promise<Response> 
 </html>`);
 }
 
+// ── Telegram webhook handler ─────────────────────────────────────────────────
+
+async function handleTelegramWebhook(request: Request, env: Env): Promise<Response> {
+  let update: any;
+  try {
+    update = await request.json();
+  } catch {
+    return new Response("Bad request", { status: 400 });
+  }
+  const tgEnv: TelegramEnv = {
+    DB: env.DB,
+    TELEGRAM_BOT_TOKEN: env.TELEGRAM_BOT_TOKEN,
+    FRONTEND_ORIGIN: env.FRONTEND_ORIGIN,
+  };
+  await handleTelegramUpdate(update, tgEnv);
+  return new Response("ok");
+}
+
 // ── Cron handler ─────────────────────────────────────────────────────────────
 
 async function handleCron(env: Env): Promise<void> {
@@ -209,7 +229,7 @@ async function handleCron(env: Env): Promise<void> {
 
         // Find verified subscribers who haven't been alerted in the last 24h
         const subs = await env.DB.prepare(`
-          SELECT id, email, unsub_token
+          SELECT id, email, unsub_token, telegram_chat_id
           FROM subscriptions
           WHERE pool_id = ?1
             AND asset_symbol = ?2
@@ -223,28 +243,50 @@ async function handleCron(env: Env): Promise<void> {
         console.log(`[cron] Alerting ${subs.results.length} subscriber(s) for ${asset.symbol}@${bracket}x on ${pool.name}`);
 
         for (const sub of subs.results) {
-          const unsubUrl = `https://turbolong-alerts.workers.dev/unsubscribe?token=${sub.unsub_token}`;
-          const result = await sendApyAlert(
-            { RESEND_API_KEY: env.RESEND_API_KEY, RESEND_FROM: env.RESEND_FROM },
-            sub.email as string,
-            {
-              poolName: pool.name,
-              assetSymbol: asset.symbol,
-              leverage: bracket,
-              netApy,
-              supplyApr: rates.netSupplyApr,
-              borrowCost: rates.netBorrowCost,
-              unsubscribeUrl: unsubUrl,
-              appUrl: env.FRONTEND_ORIGIN,
-            },
-          );
+          let alerted = false;
 
-          if (result.ok) {
+          // Email alert (only for non-Telegram subscriptions)
+          if (!(sub.email as string).startsWith("tg:")) {
+            const unsubUrl = `https://turbolong-alerts.workers.dev/unsubscribe?token=${sub.unsub_token}`;
+            const result = await sendApyAlert(
+              { RESEND_API_KEY: env.RESEND_API_KEY, RESEND_FROM: env.RESEND_FROM },
+              sub.email as string,
+              {
+                poolName: pool.name,
+                assetSymbol: asset.symbol,
+                leverage: bracket,
+                netApy,
+                supplyApr: rates.netSupplyApr,
+                borrowCost: rates.netBorrowCost,
+                unsubscribeUrl: unsubUrl,
+                appUrl: env.FRONTEND_ORIGIN,
+              },
+            );
+            if (result.ok) alerted = true;
+            else console.error(`[cron] Failed to send email alert to ${sub.email}:`, result.error);
+          }
+
+          // Telegram alert
+          if (sub.telegram_chat_id) {
+            try {
+              await sendTelegramAlert(env.TELEGRAM_BOT_TOKEN, sub.telegram_chat_id as number, {
+                poolName: pool.name,
+                assetSymbol: asset.symbol,
+                leverage: bracket,
+                netApy,
+                supplyApr: rates.netSupplyApr,
+                borrowCost: rates.netBorrowCost,
+              });
+              alerted = true;
+            } catch (e) {
+              console.error(`[cron] Failed to send Telegram alert to chat ${sub.telegram_chat_id}:`, e);
+            }
+          }
+
+          if (alerted) {
             await env.DB.prepare(
               "UPDATE subscriptions SET last_alerted_at = datetime('now') WHERE id = ?1"
             ).bind(sub.id).run();
-          } else {
-            console.error(`[cron] Failed to send alert to ${sub.email}:`, result.error);
           }
         }
       }
@@ -277,6 +319,12 @@ export default {
 
       case "/unsubscribe":
         return handleUnsubscribe(request, env);
+
+      case "/telegram":
+        if (request.method !== "POST") {
+          return jsonResponse({ error: "Method not allowed" }, 405);
+        }
+        return handleTelegramWebhook(request, env);
 
       default:
         return jsonResponse({ error: "Not found" }, 404);

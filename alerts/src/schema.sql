@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   unsub_token TEXT,
   created_at TEXT DEFAULT (datetime('now')),
   last_alerted_at TEXT,
+  telegram_chat_id INTEGER,
   UNIQUE(email, pool_id, asset_symbol, leverage_bracket)
 );
 

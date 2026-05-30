@@ -831,6 +831,59 @@ export function checkLoopSafety(
   };
 }
 
+// ── Pool comparison data ──────────────────────────────────────────────────────
+
+export interface CompareRow {
+  pool:       PoolDef;
+  asset:      AssetInfo;
+  supplyApy:  number;   // % — net supply APY (interest + BLND)
+  borrowApy:  number;   // % — net borrow APY (interest - BLND)
+  netApy5x:   number;   // % — net APY at 5× leverage
+  netApy10x:  number;   // % — net APY at 10× leverage
+  cFactor:    number;   // 0..1
+  tvl:        number;   // USD
+  utilization: number;  // 0..1
+}
+
+/**
+ * Fetch reserve stats for all mainnet pools and return a flat list of
+ * CompareRow entries — one per (pool, asset) pair.
+ * No wallet connection required.
+ */
+export async function fetchCompareData(): Promise<CompareRow[]> {
+  const rows: CompareRow[] = [];
+  const pools = getKnownPools();
+
+  await Promise.all(pools.map(async (pool) => {
+    try {
+      const reserves = await fetchAllReserves(pool, "");
+      for (const rs of reserves) {
+        const supplyApy = (Math.exp(rs.netSupplyApr / 100) - 1) * 100;
+        const borrowApy = (Math.exp(rs.netBorrowCost / 100) - 1) * 100;
+        const netApy5x  = (Math.exp((rs.netSupplyApr * 5 - rs.netBorrowCost * 4) / 100) - 1) * 100;
+        const netApy10x = (Math.exp((rs.netSupplyApr * 10 - rs.netBorrowCost * 9) / 100) - 1) * 100;
+        const tvl = rs.totalSupply * rs.priceUsd;
+        const utilization = rs.totalSupply > 0 ? rs.totalBorrow / rs.totalSupply : 0;
+        rows.push({
+          pool,
+          asset: rs.asset,
+          supplyApy,
+          borrowApy,
+          netApy5x,
+          netApy10x,
+          cFactor: rs.cFactor,
+          tvl,
+          utilization,
+        });
+      }
+    } catch (e) {
+      console.warn(`fetchCompareData: failed for pool ${pool.name}:`, e);
+    }
+  }));
+
+  return rows;
+}
+
 /**
  * Build supply/borrow request sequence to reach a target leverage.
  * Each loop supplies current balance as collateral, then borrows the minimum of

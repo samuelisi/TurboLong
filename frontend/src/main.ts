@@ -44,12 +44,14 @@ import {
   submitClassicXdr,
   hfForLeverage,
   maxLeverageFor,
+  fetchCompareData,
   type NetworkMode,
   type AssetInfo,
   type PoolDef,
   type ReserveStats,
   type AssetPosition,
   type UserPositions,
+  type CompareRow,
   projectRates,
 } from "./blend.ts";
 
@@ -338,12 +340,42 @@ const fmtAddr = (addr: string) => addr.slice(0, 6) + "…" + addr.slice(-4);
 
 // ── Skeleton loading (#3) ────────────────────────────────────────────────────
 
+/** Skeleton widths that match the typical rendered width of each stat element. */
+const SKELETON_WIDTHS: Record<string, string> = {
+  "stat-cfactor":          "3em",
+  "stat-max-lev":          "4em",
+  "stat-liquidity":        "8em",
+  "stat-util":             "3.5em",
+  "stat-price":            "5em",
+  "supply-interest-apr":   "4em",
+  "supply-blnd-apr":       "4em",
+  "supply-net-apr":        "4em",
+  "borrow-interest-apr":   "4em",
+  "borrow-blnd-apr":       "4em",
+  "borrow-net-cost":       "4em",
+  "pos-collateral":        "10em",
+  "pos-debt":              "10em",
+  "pos-equity":            "10em",
+  "pos-leverage":          "3em",
+  "pos-hf":                "4em",
+  "pos-pool-hf":           "4em",
+  "pos-net-apr":           "5em",
+  "pos-headroom":          "5em",
+  "pos-liq-days":          "7em",
+};
+
 function setSkeleton(id: string) {
   const el = $(id);
-  el.textContent = "\u00A0\u00A0\u00A0\u00A0\u00A0";
+  el.textContent = "\u00A0";
   el.classList.add("skeleton");
+  const w = SKELETON_WIDTHS[id];
+  if (w) el.style.minWidth = w;
 }
-function clearSkeleton(id: string) { $(id).classList.remove("skeleton"); }
+function clearSkeleton(id: string) {
+  const el = $(id);
+  el.classList.remove("skeleton");
+  el.style.minWidth = "";
+}
 
 // ── Data freshness (#4) ─────────────────────────────────────────────────────
 

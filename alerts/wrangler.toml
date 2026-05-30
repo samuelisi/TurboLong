@@ -14,3 +14,4 @@ database_id = "<run `npm run db:create` and paste the ID here>"
 RESEND_FROM = "alerts@turbolong.com"
 FRONTEND_ORIGIN = "https://app.turbolong.com"
 # RESEND_API_KEY: set via `wrangler secret put RESEND_API_KEY`
+# TELEGRAM_BOT_TOKEN: set via `wrangler secret put TELEGRAM_BOT_TOKEN`
