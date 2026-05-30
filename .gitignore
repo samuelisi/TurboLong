@@ -11,3 +11,4 @@ src/.DS_Store
 frontend/node_modules/
 frontend/dist/
 frontend/package-lock.json
+alerts/node_modules/
